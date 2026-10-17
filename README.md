@@ -2,7 +2,7 @@
 
 **Задача:** сформировать отчёт по модерации приложений за сентябрь 2026 года и добавить топ-3 причин возврата для каждого модератора.
 **Технологии:** PHP, JSON, CSV, GitHub, Render.
-**Демо:** https://bitrix24-moderation-report.onrender.com/
+**Демо:** https://bitrix24-moderation-report.onrender.com/index.php
 
 ---
 
