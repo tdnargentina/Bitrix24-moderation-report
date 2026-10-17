@@ -1,3 +1,6 @@
+// Код можно запустить в своем локалхосте или просто открыть ссылку https://bitrix24-moderation-report.onrender.com/
+
+
 <?php
 declare(strict_types=1);
 session_start();
