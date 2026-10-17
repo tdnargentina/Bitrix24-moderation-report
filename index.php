@@ -1,9 +1,9 @@
 
 
 <?php
-// Код можно запустить в своем локалхосте или просто открыть ссылку https://bitrix24-moderation-report.onrender.com/
 
 declare(strict_types=1);
+// Код можно запустить в своем локалхосте или просто открыть ссылку https://bitrix24-moderation-report.onrender.com/
 session_start();
 
 const REPORT_TZ = 'Europe/Moscow';
