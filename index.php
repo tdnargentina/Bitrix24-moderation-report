@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 session_start();
 
 const REPORT_TZ = 'Europe/Moscow';
@@ -211,7 +210,12 @@ function makeReport(array $pageContents, string $usersContents): array {
     }
     unset($s);
 
-    usort($stats, static fn(array $a, array $b): int => strcasecmp($a['name'], $b['name']));
+    usort($stats, static function(array $a, array $b): int {
+        $aUnknown = str_starts_with($a['name'], 'Неизвестный (ID ');
+        $bUnknown = str_starts_with($b['name'], 'Неизвестный (ID ');
+        if ($aUnknown !== $bUnknown) return $aUnknown ? 1 : -1;
+        return strcasecmp($a['name'], $b['name']);
+    });
     return [
         'rows' => array_values($stats),
         'warnings' => array_values(array_unique($warnings)),
@@ -337,7 +341,6 @@ h2{font-size:18px;margin:0 0 14px}.help{font-size:13px;color:var(--muted);margin
       </div>
       <div class="actions"><button class="primary" type="submit">Построить отчёт</button></div>
     </form>
-    <form method="post" class="actions"><input type="hidden" name="source" value="sample"><button class="secondary" type="submit">Проверить на приложенных тестовых данных</button></form>
   </section>
 
   <?php if ($error !== null): ?><div class="error"><?= h($error) ?></div><?php endif; ?>
@@ -350,7 +353,6 @@ h2{font-size:18px;margin:0 0 14px}.help{font-size:13px;color:var(--muted);margin
       <div class="metric"><strong><?= (int)$report['source_count'] ?></strong><span>Записей в исходных файлах</span></div>
       <div class="metric"><strong><?= (int)$report['unique_count'] ?></strong><span>Уникальных заявок после проверки ID</span></div>
     </div>
-    <div class="notice">Доля возвратов = returned / (approved + returned) за сентябрь. Типичное время — медиана длительности корректных закрытых заявок, попавших в сентябрь по московскому времени.</div>
     <div class="table-wrap" style="margin-top:16px">
       <table>
         <thead><tr><th>Модератор</th><th class="num">Закрыто</th><th class="num">Доля возвратов</th><th class="num">Медиана, ч</th><th class="num">В работе</th><th>Топ-3 причины возврата (количество)</th></tr></thead>
@@ -378,3 +380,4 @@ h2{font-size:18px;margin:0 0 14px}.help{font-size:13px;color:var(--muted);margin
 </main>
 </body>
 </html>
+
